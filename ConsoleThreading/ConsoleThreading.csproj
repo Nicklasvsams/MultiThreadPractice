@@ -34,8 +34,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SingleThread.cs" />
-    <Compile Include="MultiThread.cs" />
+    <Compile Include="ThreadMethods.cs" />
     <Compile Include="ThreadingObject.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

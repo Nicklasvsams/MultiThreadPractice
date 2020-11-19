@@ -6,7 +6,7 @@ namespace ConsoleThreading
     {
         public string Name;
         private readonly int Number;
-        private readonly bool MyBool;
+        public bool MyBool;
         private readonly IReadOnlyCollection<KeyValuePair<int, string>> SomeKVP;
 
         public ThreadingObject(string n, int i, bool b, IReadOnlyCollection<KeyValuePair<int, string>> irc)

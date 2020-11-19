@@ -2,7 +2,8 @@
 using ConsoleThreading;
 using static System.Console;
 
-public static class MultiThread
+// A simple class with two methods, which writes out a string and changes a variable
+public static class ThreadMethods
 {
     public static void Method1(List<ThreadingObject> thread)
     {
@@ -13,14 +14,12 @@ public static class MultiThread
         }
     }
 
-    // static method two 
     public static void Method2(List<ThreadingObject> thread)
     {
         for (int t = 0; t <= thread.Count - 1; t++)
         {
             WriteLine("Method2 is : {0}", t);
-            thread[t].Name = (t + 1).ToString();
+            thread[t].MyBool = !thread[t].MyBool;
         }
     }
 }
-
