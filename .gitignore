@@ -1,2 +1,6 @@
 .vs/
 .obj/
+
+ConsoleThreading/obj/x86/Debug/
+
+ConsoleThreading/bin/Debug/
