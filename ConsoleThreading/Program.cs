@@ -66,5 +66,7 @@ public class Program
         Console.WriteLine("Time elapsed for multithreading: " + sw.Elapsed);
 
         Console.ReadKey();
+
+        //Branching
     }
 }
