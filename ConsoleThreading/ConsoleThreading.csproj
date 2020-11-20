@@ -37,7 +37,7 @@
     <Compile Include="ThreadMethods.cs" />
     <Compile Include="ThreadingObject.cs" />
     <Compile Include="MutexMethods.cs" />
-    <Compile Include="MutexSemaphoreMethods.cs" />
+    <Compile Include="SemaphoreMethods.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

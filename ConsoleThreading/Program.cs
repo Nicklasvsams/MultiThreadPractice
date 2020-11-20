@@ -6,62 +6,73 @@ using ConsoleThreading;
 
 public class Program
 {
-    public static Semaphore SemPool = new Semaphore(0, 2);
+    public static Semaphore semPool = new Semaphore(0, 2);
+    private static List<Thread> threadList = new List<Thread>();
+    private static List<Thread> threadListMutex = new List<Thread>();
+    private static List<Thread> threadListSemaphore = new List<Thread>();
+    private static List<ThreadingObject> threadingObjectList = new List<ThreadingObject>();
+    private static readonly Stopwatch sw = new Stopwatch();
+    private static bool run = true;
 
     static public void Main()
     {
-        // Initilasing lists to hold objects and threads
-        List<Thread> threadList = new List<Thread>();
-        List<Thread> threadListMutex = new List<Thread>();
-        List<Thread> threadListMutexSemaphore = new List<Thread>();
-        List<ThreadingObject> threadingObjectList = new List<ThreadingObject>();
-
-
-        // Initialises objects to be used in the thread example - Adds them to a list
-        for (int i = 0; i < 500; i++)
+        do
         {
-            var myObject = new ThreadingObject("Name" + i, i, true, new List<KeyValuePair<int, string>>());
-            threadingObjectList.Add(myObject);
+            Setup();
+
+            Console.WriteLine("1: Single thread\n2: Multithread\n3: Mutex multithread\n4: Semaphore multithread\n\nESC: Exit");
+            var choice = Console.ReadKey();
+
+            switch (choice.Key)
+            {
+                case ConsoleKey.D1:
+                    SingleThread();
+                    break;
+                case ConsoleKey.D2:
+                    MultiThread();
+                    break;
+                case ConsoleKey.D3:
+                    MutexThread();
+                    break;
+                case ConsoleKey.D4:
+                    SemaphoreThread();
+                    break;
+                case ConsoleKey.Escape:
+                    run = false;
+                    break;
+                default:
+                    break;
+            }
+            Console.ReadKey();
+        }
+        while (run);
+    }
+
+    private static void SingleThread()
+    {
+        Console.WriteLine("\n--- Now doing singlethreading ---");
+        Thread.Sleep(1000);
+
+        //Starts the stopwatch
+        sw.Start();
+
+        // For each of the objects in the object list, we run method 1 and 2 in the SingleThread class
+        for (int i = 0; i < threadingObjectList.Count; i++)
+        {
+            ThreadMethods.Method1(threadingObjectList);
+            ThreadMethods.Method2(threadingObjectList);
         }
 
-        // Creates new thread processes referring to the multithread class methods and adds them to a list
-        for (int i = 0; i < 50; i++)
-        {
-            threadList.Add(new Thread(() => ThreadMethods.Method1(threadingObjectList)));
-            threadList.Add(new Thread(() => ThreadMethods.Method2(threadingObjectList)));
+        sw.Stop();
+        Console.WriteLine("Time elapsed for singlethreading: " + sw.Elapsed);
+        sw.Reset();
+    }
 
-            threadListMutex.Add(new Thread(() => MutexMethods.Method1(threadingObjectList)));
-            threadListMutex.Add(new Thread(() => MutexMethods.Method2(threadingObjectList)));
-
-            threadListMutexSemaphore.Add(new Thread(() => MutexSemaphoreMethods.Method1(threadingObjectList)));
-            threadListMutexSemaphore.Add(new Thread(() => MutexSemaphoreMethods.Method2(threadingObjectList)));
-        }
-
-        // Creates a stopwatch, in order for us to check how long processing takes
-        Stopwatch sw = new Stopwatch();
-
-        // Starts the stopwatch
-        //sw.Start();
-
-        //// For each of the objects in the object list, we run method 1 and 2 in the SingleThread class
-        //for (int i = 0; i < threadingObjectList.Count; i++)
-        //{
-        //    ThreadMethods.Method1(threadingObjectList);
-        //    ThreadMethods.Method2(threadingObjectList);
-        //}
-
-        //// Stops the stopwatch and shows elapsed time
-        //sw.Stop();
-        //Console.WriteLine("Time elapsed for singlethreading: " + sw.Elapsed);
-        //Console.ReadKey();
-
-        //// Program sleeps for specified amount of time in ms
-        //Thread.Sleep(10000);
-
+    private static void MultiThread()
+    {
         Console.WriteLine("\n--- Now doing multithreading ---");
         Thread.Sleep(1000);
 
-        // Stopwatch is restarted
         sw.Start();
 
         // For each of the threads created, start the thread process
@@ -75,23 +86,19 @@ public class Program
         // Stops the stopwatch and shows elapsed time
         sw.Stop();
         Console.WriteLine("Time elapsed for multithreading: " + sw.Elapsed);
-        Console.ReadKey();
+        sw.Reset();
+    }
 
-        Thread.Sleep(1000);
-
+    private static void MutexThread()
+    {
         Console.WriteLine("\n --- Now starting mutex multithread example ---");
         Thread.Sleep(1000);
 
-        sw.Restart();
+        sw.Start();
 
         for (int i = 0; i < threadList.Count; i++)
         {
             threadListMutex[i].Start();
-        }
-
-
-        for (int i = 0; i < threadList.Count; i++)
-        {
             threadListMutex[i].Join();
         }
 
@@ -100,33 +107,69 @@ public class Program
         Console.WriteLine("Time elapsed for multithreading with Mutex: " + sw.Elapsed);
         Console.WriteLine("Count with mutex: " + MutexMethods.counter);
         Console.WriteLine("Count without mutex: " + MutexMethods.counter2);
-        Console.ReadKey();
 
+        MutexMethods.counter = 0;
+        MutexMethods.counter2 = 0;
+
+        sw.Reset();
+    }
+
+    private static void SemaphoreThread()
+    {
+        Console.WriteLine("\n --- Now starting semaphore multithread example ---");
         Thread.Sleep(1000);
 
-        Console.WriteLine("\n --- Now starting mutex & semaphore multithread example ---");
-        Thread.Sleep(1000);
-
-        sw.Restart();
+        sw.Start();
 
         for (int i = 0; i < threadList.Count; i++)
         {
-            threadListMutexSemaphore[i].Start();
+            threadListSemaphore[i].Start();
         }
 
-        SemPool.Release();
+        semPool.Release();
 
         for (int i = 0; i < threadList.Count; i++)
         {
-            threadListMutexSemaphore[i].Join();
+            threadListSemaphore[i].Join();
         }
 
         sw.Stop();
 
+        Console.WriteLine("Time elapsed for multithreading semaphore: " + sw.Elapsed);
 
-        Console.WriteLine("Time elapsed for multithreading with Mutex & Semaphore: " + sw.Elapsed);
+        sw.Reset();
+    }
 
+    private static void Setup()
+    {
+        if (threadList.Count > 0 && threadListMutex.Count > 0 && threadListSemaphore.Count > 0)
+        {
+            threadList.Clear();
+            threadListMutex.Clear();
+            threadListSemaphore.Clear();
+        }
 
-        Console.ReadKey();
+        // Initialises objects to be used in the thread example - Adds them to a list
+        if (threadingObjectList.Count == 0)
+        {
+            for (int i = 0; i < 500; i++)
+            {
+                var myObject = new ThreadingObject("Name" + i, i, true, new List<KeyValuePair<int, string>>());
+                threadingObjectList.Add(myObject);
+            }
+        }
+
+        // Creates new thread processes referring to the multithread class methods and adds them to a list
+        for (int i = 0; i < 50; i++)
+        {
+            threadList.Add(new Thread(() => ThreadMethods.Method1(threadingObjectList)));
+            threadList.Add(new Thread(() => ThreadMethods.Method2(threadingObjectList)));
+
+            threadListMutex.Add(new Thread(() => MutexMethods.Method1(threadingObjectList)));
+            threadListMutex.Add(new Thread(() => MutexMethods.Method2(threadingObjectList)));
+
+            threadListSemaphore.Add(new Thread(() => SemaphoreMethods.Method1(threadingObjectList)));
+            threadListSemaphore.Add(new Thread(() => SemaphoreMethods.Method2(threadingObjectList)));
+        }
     }
 }
