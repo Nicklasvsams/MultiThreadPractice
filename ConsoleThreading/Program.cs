@@ -20,6 +20,7 @@ public class Program
         {
             Setup();
             Console.Clear();
+
             Console.WriteLine("1: Single thread\n2: Multithread\n3: Mutex multithread\n4: Semaphore multithread\n\nESC: Exit");
             var choice = Console.ReadKey();
 
@@ -116,7 +117,8 @@ public class Program
 
     private static void SemaphoreThread()
     {
-        semPool = new Semaphore(0, 2);
+        semPool = new Semaphore();
+
         Console.WriteLine("\n --- Now starting semaphore multithread example ---");
         Thread.Sleep(1000);
 
