@@ -122,22 +122,21 @@ public class Program
 
         sw.Start();
 
-        for (int i = 0; i < threadListSemaphore.Count; i++)
+        for (int i = 0; i < 10; i++)
         {
             threadListSemaphore[i].Start();
         }
 
-        semPool.Release();
+        semPool.Release(2);
 
-        for (int i = 0; i < threadListSemaphore.Count; i++)
+        for(int i = 0; i < 10; i++)
         {
             threadListSemaphore[i].Join();
         }
 
         sw.Stop();
 
-        Console.WriteLine("Time elapsed for multithreading semaphore: " + sw.Elapsed);
-
+        Console.ReadKey();
         sw.Reset();
     }
 
@@ -170,9 +169,12 @@ public class Program
 
             threadListMutex.Add(new Thread(() => MutexMethods.Method1(threadingObjectList)));
             threadListMutex.Add(new Thread(() => MutexMethods.Method2(threadingObjectList)));
+        }
 
-            threadListSemaphore.Add(new Thread(() => SemaphoreMethods.Method1(threadingObjectList)));
-            threadListSemaphore.Add(new Thread(() => SemaphoreMethods.Method2(threadingObjectList)));
+        for (int i = 0; i < 10; i++)
+        {
+            threadListSemaphore.Add(new Thread((SemaphoreMethods.Method1)) { Name = i.ToString() });
+
         }
     }
 }

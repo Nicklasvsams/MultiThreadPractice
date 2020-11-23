@@ -6,28 +6,15 @@ namespace ConsoleThreading
 {
     public class SemaphoreMethods
     {
-        private static Mutex mutex = new Mutex();
 
-        public static void Method1(List<ThreadingObject> thread)
+        public static void Method1()
         {
-            for (int i = 0; i <= thread.Count - 1; i++)
-            {
-                Program.semPool.WaitOne();
-
-                WriteLine("Method1 is : {0}", i);
-                thread[i].Name = (i + 1).ToString();
-
-                Program.semPool.Release();
-            }
-        }
-
-        public static void Method2(List<ThreadingObject> thread)
-        {
-            for (int t = 0; t <= thread.Count - 1; t++)
-            {
-                WriteLine("Method2 is : {0}", t);
-                thread[t].MyBool = !thread[t].MyBool;
-            }
+            WriteLine("Thread {0} = waiting", Thread.CurrentThread.Name);
+            Program.semPool.WaitOne();
+            WriteLine("Thread {0} begins!", Thread.CurrentThread.Name);
+            Thread.Sleep(1000);
+            WriteLine("Thread {0} releasing...", Thread.CurrentThread.Name);
+            Program.semPool.Release();
         }
     }
 }
