@@ -117,7 +117,7 @@ public class Program
 
     private static void SemaphoreThread()
     {
-        semPool = new Semaphore();
+        semPool = new Semaphore(0,2);
 
         Console.WriteLine("\n --- Now starting semaphore multithread example ---");
         Thread.Sleep(1000);

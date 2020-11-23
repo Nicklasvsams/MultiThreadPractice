@@ -4,3 +4,5 @@
 ConsoleThreading/obj/x86/Debug/
 
 ConsoleThreading/bin/Debug/
+ConsoleThreading/app.config
+ConsoleThreading/ConsoleThreading.csproj
