@@ -6,7 +6,7 @@ using ConsoleThreading;
 
 public class Program
 {
-    public static Semaphore semPool = new Semaphore(0, 2);
+    public static Semaphore semPool;
     private static List<Thread> threadList = new List<Thread>();
     private static List<Thread> threadListMutex = new List<Thread>();
     private static List<Thread> threadListSemaphore = new List<Thread>();
@@ -19,7 +19,7 @@ public class Program
         do
         {
             Setup();
-
+            Console.Clear();
             Console.WriteLine("1: Single thread\n2: Multithread\n3: Mutex multithread\n4: Semaphore multithread\n\nESC: Exit");
             var choice = Console.ReadKey();
 
@@ -116,6 +116,7 @@ public class Program
 
     private static void SemaphoreThread()
     {
+        semPool = new Semaphore(0, 2);
         Console.WriteLine("\n --- Now starting semaphore multithread example ---");
         Thread.Sleep(1000);
 
