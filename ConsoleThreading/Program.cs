@@ -97,7 +97,7 @@ public class Program
 
         sw.Start();
 
-        for (int i = 0; i < threadList.Count; i++)
+        for (int i = 0; i < threadListMutex.Count; i++)
         {
             threadListMutex[i].Start();
             threadListMutex[i].Join();
@@ -109,8 +109,6 @@ public class Program
         Console.WriteLine("Count with mutex: " + MutexMethods.counter);
         Console.WriteLine("Count without mutex: " + MutexMethods.counter2);
 
-        MutexMethods.counter = 0;
-        MutexMethods.counter2 = 0;
 
         sw.Reset();
     }
@@ -124,14 +122,14 @@ public class Program
 
         sw.Start();
 
-        for (int i = 0; i < threadList.Count; i++)
+        for (int i = 0; i < threadListSemaphore.Count; i++)
         {
             threadListSemaphore[i].Start();
         }
 
         semPool.Release();
 
-        for (int i = 0; i < threadList.Count; i++)
+        for (int i = 0; i < threadListSemaphore.Count; i++)
         {
             threadListSemaphore[i].Join();
         }
@@ -152,6 +150,8 @@ public class Program
             threadListSemaphore.Clear();
         }
 
+        MutexMethods.counter = 0;
+        MutexMethods.counter2 = 0;
         // Initialises objects to be used in the thread example - Adds them to a list
         if (threadingObjectList.Count == 0)
         {
