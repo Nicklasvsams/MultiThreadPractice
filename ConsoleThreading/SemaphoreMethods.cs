@@ -1,12 +1,10 @@
 ﻿using static System.Console;
-using System.Collections.Generic;
 using System.Threading;
 
 namespace ConsoleThreading
 {
     public class SemaphoreMethods
     {
-
         public static void Method1()
         {
             WriteLine("Thread {0} = waiting", Thread.CurrentThread.Name);

@@ -54,10 +54,8 @@ public class Program
         Console.WriteLine("\n--- Now doing singlethreading ---");
         Thread.Sleep(1000);
 
-        //Starts the stopwatch
         sw.Start();
 
-        // For each of the objects in the object list, we run method 1 and 2 in the SingleThread class
         for (int i = 0; i < threadingObjectList.Count; i++)
         {
             ThreadMethods.Method1(threadingObjectList);
@@ -76,15 +74,12 @@ public class Program
 
         sw.Start();
 
-        // For each of the threads created, start the thread process
-        // Join means wait for processes to finished, before continuing
         for (int i = 0; i < threadList.Count; i++)
         {
             threadList[i].Start();
             threadList[i].Join();
         }
 
-        // Stops the stopwatch and shows elapsed time
         sw.Stop();
         Console.WriteLine("Time elapsed for multithreading: " + sw.Elapsed);
         sw.Reset();
@@ -115,7 +110,7 @@ public class Program
 
     private static void SemaphoreThread()
     {
-        semPool = new Semaphore(0,2);
+        semPool = new Semaphore(0, 2);
 
         Console.WriteLine("\n --- Now starting semaphore multithread example ---");
         Thread.Sleep(1000);
@@ -129,7 +124,7 @@ public class Program
 
         semPool.Release(2);
 
-        for(int i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++)
         {
             threadListSemaphore[i].Join();
         }
@@ -151,7 +146,7 @@ public class Program
 
         MutexMethods.counter = 0;
         MutexMethods.counter2 = 0;
-        // Initialises objects to be used in the thread example - Adds them to a list
+
         if (threadingObjectList.Count == 0)
         {
             for (int i = 0; i < 500; i++)
@@ -161,7 +156,6 @@ public class Program
             }
         }
 
-        // Creates new thread processes referring to the multithread class methods and adds them to a list
         for (int i = 0; i < 50; i++)
         {
             threadList.Add(new Thread(() => ThreadMethods.Method1(threadingObjectList)));

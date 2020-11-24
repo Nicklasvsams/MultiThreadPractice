@@ -2,8 +2,6 @@
 
 namespace ConsoleThreading
 {
-    // Simple object with random fields
-
     public class ThreadingObject
     {
         public string Name;

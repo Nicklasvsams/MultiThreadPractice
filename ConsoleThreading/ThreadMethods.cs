@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using ConsoleThreading;
 using static System.Console;
 
-// A simple class with two methods, which writes out a string and changes a variable
+using ConsoleThreading;
+
 public static class ThreadMethods
 {
     public static void Method1(List<ThreadingObject> thread)
