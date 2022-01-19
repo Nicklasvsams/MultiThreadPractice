@@ -4,7 +4,7 @@ using static System.Console;
 
 namespace ConsoleThreading
 {
-    public class MutexMethods
+    public static class MutexMethods
     {
         private static Mutex mutex = new Mutex();
         public static int counter = 0;

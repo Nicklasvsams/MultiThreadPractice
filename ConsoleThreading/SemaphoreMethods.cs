@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace ConsoleThreading
 {
-    public class SemaphoreMethods
+    public static class SemaphoreMethods
     {
         public static void Method1()
         {
